@@ -16,7 +16,7 @@ You can configure some things with environment variables:
 - `DATA_CURATOR_PASSWORD` Password of the `DataCurator` user, used for stopping
   the services. Defaults to `swordfish`.
 - `STOPSTONE_TIMEOUT_SECONDS` time-out in seconds to wait for `stopstone`
-  command to finish.
+  command to finish. Defaults to 8
 
 ## Important directories and files
 
