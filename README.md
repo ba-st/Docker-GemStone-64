@@ -20,7 +20,7 @@ license terms. Users with access to a custom key file, can mount and use it inst
 ## License
 
 - The code is licensed under [MIT](LICENSE).
-- The documentation is licensed under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/).
+- The documentation is licensed under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 
 ## Contributing
 
