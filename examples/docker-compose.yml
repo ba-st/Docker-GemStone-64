@@ -17,4 +17,3 @@ services:
       - ./logs/:/opt/gemstone/logs/
       - ./projects/:/opt/gemstone/projects/
       - ~/.ssh/:/home/gemstone/.ssh/:ro
- 
