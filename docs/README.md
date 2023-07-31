@@ -20,7 +20,8 @@ You can configure some things with environment variables:
 
 ## Important directories and files
 
-- `/opt/gemstone/conf/${STONE_SERVICE_NAME}.conf` Stone configuration, created if missing.
+- `/opt/gemstone/conf/${STONE_SERVICE_NAME}.conf` Stone configuration, created
+  if missing.
 - `/opt/gemstone/conf/system.conf` GemStone system configuration, created if missing.
 - `/opt/gemstone/data` Extent and transaction log location
 - `/opt/gemstone/locks` Lock files
