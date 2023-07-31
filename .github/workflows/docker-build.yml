@@ -46,7 +46,7 @@ jobs:
           context: ./source
           file: ./source/Dockerfile
           build-args: GS_VERSION=${{ matrix.version }}
-          target: docker-gs-64-base
+          target: docker-gs64-base
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime.outputs.labels }}
