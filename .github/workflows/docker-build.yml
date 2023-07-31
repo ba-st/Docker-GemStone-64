@@ -54,7 +54,7 @@ jobs:
 
       # GS64 base image + rowan extent
       - name: Gather docker meta data for base image
-        id: docker_meta_runtime
+        id: docker_meta_runtime_rowan
         uses: crazy-max/ghaction-docker-meta@v4
         with:
           images: ghcr.io/${{ github.repository_owner }}/gs64-rowan
@@ -67,13 +67,13 @@ jobs:
           build-args: GS_VERSION=${{ matrix.version }}
           target: docker-gs64-rowan
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta_runtime.outputs.tags }}
-          labels: ${{ steps.docker_meta_runtime.outputs.labels }}
+          tags: ${{ steps.docker_meta_runtime_rowan.outputs.tags }}
+          labels: ${{ steps.docker_meta_runtime_rowan.outputs.labels }}
           secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
       # GS64 base image + rowan extent + git
       - name: Gather docker meta data for rowan-loader image
-        id: docker_meta_runtime
+        id: docker_meta_runtime_rowan_loader
         uses: crazy-max/ghaction-docker-meta@v4
         with:
           images: ghcr.io/${{ github.repository_owner }}/gs64-rowan-loader
@@ -86,6 +86,6 @@ jobs:
           build-args: GS_VERSION=${{ matrix.version }}
           target: docker-gs64-rowan-loader
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta_runtime.outputs.tags }}
-          labels: ${{ steps.docker_meta_runtime.outputs.labels }}
+          tags: ${{ steps.docker_meta_runtime_rowan_loader.outputs.tags }}
+          labels: ${{ steps.docker_meta_runtime_rowan_loader.outputs.labels }}
           secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
