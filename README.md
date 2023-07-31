@@ -17,6 +17,13 @@ license terms. Users with access to a custom key file, can mount and use it inst
 - [Report a defect](https://github.com/ba-st/Docker-GemStone-64/issues/new?labels=Type%3A+Defect)
 - [Request a feature](https://github.com/ba-st/Docker-GemStone-64/issues/new?labels=Type%3A+Feature)
 
+## Quick start
+
+```bash
+cd examples
+docker compose up -d stone
+```
+
 ## License
 
 - The code is licensed under [MIT](LICENSE).
