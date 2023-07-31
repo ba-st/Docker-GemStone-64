@@ -23,6 +23,7 @@ NEED_WRITE_PERMISSION=(
   "${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf"
   "${GEMSTONE_GLOBAL_DIR}/locks/"
   "${GEMSTONE_LOG_DIR}/"
+  "${ROWAN_PROJECTS_HOME}/"
 )
 
 for path in "${NEED_WRITE_PERMISSION[@]}"; do
