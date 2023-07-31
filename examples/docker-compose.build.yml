@@ -4,7 +4,11 @@ services:
   stone:
     init: true
     network_mode: host
-    image: ghcr.io/ba-st/gs64-rowan-loader:v3.6.6
+    build:
+      context: ../source
+      target: docker-gs64-rowan-loader
+      args:
+        GS_VERSION: 3.6.6
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:
