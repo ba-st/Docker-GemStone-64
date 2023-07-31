@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  stone:
+    init: true
+    network_mode: host
+    build:
+      context: ../source
+      target: docker-gs64-rowan-loader
+      args:
+        GS_VERSION: 3.6.6
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+    volumes:
+      - ./conf/:/opt/gemstone/conf/
+      - ./locks/:/opt/gemstone/locks/
+      - ./logs/:/opt/gemstone/logs/
+      - ./projects/:/opt/gemstone/projects/
+      - ~/.ssh/:/home/gemstone/.ssh/:ro

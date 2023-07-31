@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  stone:
+    init: true
+    network_mode: host
+    image: ghcr.io/ba-st/gs64-rowan-loader:v3.6.6
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+    volumes:
+      - ./conf/:/opt/gemstone/conf/
+      - ./locks/:/opt/gemstone/locks/
+      - ./logs/:/opt/gemstone/logs/
+      - ./projects/:/opt/gemstone/projects/
+      - ~/.ssh/:/home/gemstone/.ssh/:ro
