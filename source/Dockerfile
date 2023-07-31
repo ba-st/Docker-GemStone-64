@@ -129,7 +129,7 @@ FROM docker-gs64-server as docker-gs64-rowan
 
 ENV ROWAN_PROJECTS_HOME=${GEMSTONE_GLOBAL_DIR}/projects
 
-RUN mkdir ${ROWAN_PROJECTS_HOME}
+RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
 COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./entrypoint.sh"]
 
