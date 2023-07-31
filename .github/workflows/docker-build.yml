@@ -50,7 +50,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime.outputs.labels }}
-          secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          secrets: GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
       # GS64 base image + rowan extent
       - name: Gather docker meta data for rowan image
@@ -69,7 +69,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime_rowan.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime_rowan.outputs.labels }}
-          secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          secrets: GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
       # GS64 base image + rowan extent + git
       - name: Gather docker meta data for rowan-loader image
@@ -88,4 +88,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime_rowan_loader.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime_rowan_loader.outputs.labels }}
-          secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          secrets: GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
