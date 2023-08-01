@@ -138,6 +138,8 @@ ENV ROWAN_PROJECTS_HOME=${GEMSTONE_GLOBAL_DIR}/projects
 
 RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
 COPY --chown=${GS_USER}:users load-rowan-project.sh ${GEMSTONE_GLOBAL_DIR}/load-rowan-project.sh
+COPY --chown=${GS_USER}:users run-tests.sh ${GEMSTONE_GLOBAL_DIR}/run-tests.sh
+COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
 
 COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./entrypoint.sh"]
