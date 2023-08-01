@@ -6,7 +6,7 @@ services:
     network_mode: host
     build:
       context: ../source
-      target: docker-gs64-rowan-loader
+      target: docker-gs64-rowan
       args:
         GS_VERSION: 3.6.6
     environment:
