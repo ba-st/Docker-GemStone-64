@@ -28,3 +28,8 @@ You can configure some things with environment variables:
 - `/opt/gemstone/logs` Log files
 - `/opt/gemstone/product/sys/gemstone.key` License key, by default `community.starter.key`
   is used.
+
+## Additional docs
+
+- [How to load a Rowan project](how-to/how-to-load-rowan-project.md)
+- [Docker images reference](reference/docker-images.md)

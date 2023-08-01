@@ -33,26 +33,26 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
-      # GS64 base image
-      - name: Gather docker meta data for base image
+      # GS64 server image
+      - name: Gather docker meta data for server image
         id: docker_meta_runtime
         uses: crazy-max/ghaction-docker-meta@v4
         with:
           images: ghcr.io/${{ github.repository_owner }}/gs64
 
-      - name: Docker build and push base image
+      - name: Docker build and push server image
         uses: docker/build-push-action@v4
         with:
           context: ./source
           file: ./source/Dockerfile
           build-args: GS_VERSION=${{ matrix.version }}
-          target: docker-gs64-base
+          target: docker-gs64-server
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime.outputs.labels }}
           secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
-      # GS64 base image + rowan extent
+      # GS64 server image + rowan extent
       - name: Gather docker meta data for rowan image
         id: docker_meta_runtime_rowan
         uses: crazy-max/ghaction-docker-meta@v4
@@ -71,20 +71,20 @@ jobs:
           labels: ${{ steps.docker_meta_runtime_rowan.outputs.labels }}
           secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
-      # GS64 base image + rowan extent + git
-      - name: Gather docker meta data for rowan-loader image
-        id: docker_meta_runtime_rowan_loader
+      # GS64 server image + base extent0.dbf
+      - name: Gather docker meta data for base image
+        id: docker_meta_runtime_base
         uses: crazy-max/ghaction-docker-meta@v4
         with:
-          images: ghcr.io/${{ github.repository_owner }}/gs64-rowan-loader
+          images: ghcr.io/${{ github.repository_owner }}/gs64-base
 
-      - name: Docker build and push rowan-loader image
+      - name: Docker build and push base image
         uses: docker/build-push-action@v4
         with:
           context: ./source
           file: ./source/Dockerfile
           build-args: GS_VERSION=${{ matrix.version }}
-          target: docker-gs64-rowan-loader
+          target: docker-gs64-base
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta_runtime_rowan_loader.outputs.tags }}
           labels: ${{ steps.docker_meta_runtime_rowan_loader.outputs.labels }}
