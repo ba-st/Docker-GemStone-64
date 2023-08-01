@@ -86,6 +86,6 @@ jobs:
           build-args: GS_VERSION=${{ matrix.version }}
           target: docker-gs64-base
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta_runtime_rowan_loader.outputs.tags }}
-          labels: ${{ steps.docker_meta_runtime_rowan_loader.outputs.labels }}
+          tags: ${{ steps.docker_meta_runtime_base.outputs.tags }}
+          labels: ${{ steps.docker_meta_runtime_base.outputs.labels }}
           secrets: GIT_AUTH_TOKEN=${{ secrets.DOCKER_REGISTRY_TOKEN }}
