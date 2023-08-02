@@ -7,9 +7,11 @@ readonly SYSTEM_USER_PASSWORD="${GS64_CI_SYSTEM_USER_PASSWORD:-swordfish}"
 
 echo "Running ${PROJECT_NAME} tests..."
 
+touch "${GEMSTONE_LOG_DIR}/running-tests.log"
+
 echo "Installing stdout printer"
 
-topaz -i -q <<EOF >> /dev/null
+topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/installing-stdout-support.log"
 set gemstone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
 iferror exit 1
 login
@@ -20,7 +22,6 @@ exit 0
 EOF
 
 echo "Running test suite"
-touch "${GEMSTONE_LOG_DIR}/running-tests.log"
 
 topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/running-tests.log"
 set gemstone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
