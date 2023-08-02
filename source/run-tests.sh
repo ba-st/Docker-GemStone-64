@@ -17,7 +17,7 @@ logout
 exit 0
 EOF
 
-topaz -i -q <<EOF
+topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/running-tests.log"
 set gemstone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
 iferror exit 1
 login
