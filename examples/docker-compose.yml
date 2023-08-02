@@ -4,7 +4,7 @@ services:
   stone:
     init: true
     network_mode: host
-    image: ghcr.io/ba-st/gs64-rowan-loader:v3.6.6
+    image: ghcr.io/ba-st/gs64-rowan:v3.6.6
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:

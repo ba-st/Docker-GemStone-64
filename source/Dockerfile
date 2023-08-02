@@ -127,15 +127,6 @@ CMD ["./entrypoint.sh"]
 ## Prepare server rowan image
 FROM docker-gs64-server as docker-gs64-rowan
 
-ENV ROWAN_PROJECTS_HOME=${GEMSTONE_GLOBAL_DIR}/projects
-
-RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
-COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
-CMD ["./entrypoint.sh"]
-
-## Prepare server rowan loader image
-FROM docker-gs64-rowan as docker-gs64-rowan-loader
-
 # Install git
 RUN  apt-get update \
   && apt-get install --assume-yes --no-install-recommends git \
@@ -143,4 +134,12 @@ RUN  apt-get update \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   ;
 
+ENV ROWAN_PROJECTS_HOME=${GEMSTONE_GLOBAL_DIR}/projects
+
+RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
+COPY --chown=${GS_USER}:users load-rowan-project.sh ${GEMSTONE_GLOBAL_DIR}/load-rowan-project.sh
+COPY --chown=${GS_USER}:users run-tests.sh ${GEMSTONE_GLOBAL_DIR}/run-tests.sh
+COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
+
+COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./entrypoint.sh"]
