@@ -129,7 +129,9 @@ FROM docker-gs64-server as docker-gs64-rowan
 
 # Install git
 RUN  apt-get update \
-  && apt-get install --assume-yes --no-install-recommends git \
+  && apt-get install --assume-yes --no-install-recommends \
+    git \
+    ssh-client \
   && apt-get clean \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   ;
