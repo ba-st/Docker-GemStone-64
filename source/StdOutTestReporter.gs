@@ -109,5 +109,5 @@ result hasPassed ifTrue: [
       printError: [:s | s << '✗ Executed ' << result runCount asString << ' tests with ' << result failureCount asString << ' failures and ' << result errorCount asString << ' errors.' ];
       printError: [:s | s << '#####################################################']
   ].
-result hasPassed
+^ result hasPassed
 %
