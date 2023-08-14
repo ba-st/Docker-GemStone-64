@@ -129,7 +129,9 @@ FROM docker-gs64-server as docker-gs64-rowan
 
 # Install git
 RUN  apt-get update \
-  && apt-get install --assume-yes --no-install-recommends git \
+  && apt-get install --assume-yes --no-install-recommends \
+    git \
+    ssh-client \
   && apt-get clean \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   ;
@@ -140,6 +142,7 @@ RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
 COPY --chown=${GS_USER}:users load-rowan-project.sh ${GEMSTONE_GLOBAL_DIR}/load-rowan-project.sh
 COPY --chown=${GS_USER}:users run-tests.sh ${GEMSTONE_GLOBAL_DIR}/run-tests.sh
 COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
+COPY --chown=${GS_USER}:users StdOutTestReporter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutTestReporter.gs
 
 COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./entrypoint.sh"]
