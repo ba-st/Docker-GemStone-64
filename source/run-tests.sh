@@ -3,7 +3,7 @@
 set -e
 
 readonly PROJECT_NAME=$1
-readonly SYSTEM_USER_PASSWORD="${GS64_CI_SYSTEM_USER_PASSWORD:-swordfish}"
+readonly SYSTEM_USER_PASSWORD="${GS64_SYSTEM_USER_PASSWORD:-swordfish}"
 
 echo "Running ${PROJECT_NAME} tests..."
 
