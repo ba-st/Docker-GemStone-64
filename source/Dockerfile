@@ -99,13 +99,14 @@ ENV NETLDI_PORT=50384
 ENV STONE_SERVICE_NAME=gs64stone
 ENV STONE_PORT=50385
 
-ENV DATA_CURATOR_PASSWORD=swordfish
+ENV GS64_DATA_CURATOR_PASSWORD=swordfish
+ENV GS64_SYSTEM_USER_PASSWORD=swordfish
 # By default `docker stop` will wait 10 seconds for the container to handle
 # SIGTERM signals, after the grace period docker will send a SIGKILL.
 # By default we wait 8 seconds to allow a clean shutdown of the Stone.
 # If your installation needs a greater timeout change the docker wait time
 # and this timet-out in consequence
-ENV STOPSTONE_TIMEOUT_SECONDS=8
+ENV GS64_STOPSTONE_TIMEOUT_SECONDS=8
 
 ENV GS_FORCE_CLEAN_LOG_FILE_DELETE=true
 ENV GEMSTONE_NRS_ALL=#netldi:$NETLDI_SERVICE_NAME#dir:$GEMSTONE_LOG_DIR/#log:$GEMSTONE_LOG_DIR/%N_%P.log
@@ -139,6 +140,7 @@ RUN  apt-get update \
 ENV ROWAN_PROJECTS_HOME=${GEMSTONE_GLOBAL_DIR}/projects
 
 RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
+COPY --chown=${GS_USER}:users configure.sh ${GEMSTONE_GLOBAL_DIR}/configure.sh
 COPY --chown=${GS_USER}:users load-rowan-project.sh ${GEMSTONE_GLOBAL_DIR}/load-rowan-project.sh
 COPY --chown=${GS_USER}:users run-tests.sh ${GEMSTONE_GLOBAL_DIR}/run-tests.sh
 COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs

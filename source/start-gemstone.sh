@@ -9,10 +9,10 @@ sigterm_handler() {
   stopnetldi
   stopstone \
     -i \
-    -t "${STOPSTONE_TIMEOUT_SECONDS}" \
+    -t "${GS64_STOPSTONE_TIMEOUT_SECONDS}" \
     "$STONE_SERVICE_NAME" \
     DataCurator \
-    "${DATA_CURATOR_PASSWORD}"
+    "${GS64_DATA_CURATOR_PASSWORD}"
   exit 143; # 128 + 15 -- SIGTERM
 }
 
@@ -42,6 +42,10 @@ startstone \
 
 # list GemStone servers
 gslist -cvl
+
+# Configure GS repository
+
+"${GEMSTONE_GLOBAL_DIR}"/configure.sh
 
 # wait forever, (loop to handle multiple signals if needed)
 while true

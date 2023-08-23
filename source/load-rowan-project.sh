@@ -17,7 +17,7 @@ else
   readonly LRP_LOAD_SPEC="${GS64_CI_SPEC:-${LRP_PROJECT_NAME}-CI}"
 fi
 
-readonly SYSTEM_USER_PASSWORD="${GS64_CI_SYSTEM_USER_PASSWORD:-swordfish}"
+readonly SYSTEM_USER_PASSWORD="${GS64_SYSTEM_USER_PASSWORD:-swordfish}"
 
 echo "Loading code in GS..."
 echo "  Project Name: ${LRP_PROJECT_NAME}"

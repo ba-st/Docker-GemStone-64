@@ -11,5 +11,5 @@ docker exec -it examples-stone-1 ./run-tests.sh Buoy
 The script supports the following configuration:
 
 - The only accepted script argument is the rowan-aware project name
-- `GS64_CI_SYSTEM_USER_PASSWORD` is optional. The password for the `SystemUser`
+- `GS64_SYSTEM_USER_PASSWORD` is optional. The password for the `SystemUser`
   account in the mounted extent. Defaults to `swordfish`.

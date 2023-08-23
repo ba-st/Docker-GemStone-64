@@ -13,9 +13,11 @@ You can configure some things with environment variables:
 - `STONE_PORT` Stone service port. Defaults to `50385`
 - `GEMSTONE_NRS_ALL` Defaults to `#netldi:gs64ldi#dir:/opt/gemstone/logs/#log:/opt/gemstone/logs/%N_%P.log`
 - `GS_FORCE_CLEAN_LOG_FILE_DELETE` Defaults to `true`
-- `DATA_CURATOR_PASSWORD` Password of the `DataCurator` user, used for stopping
+- `GS64_DATA_CURATOR_PASSWORD` Password of the `DataCurator` user, used for stopping
   the services. Defaults to `swordfish`.
-- `STOPSTONE_TIMEOUT_SECONDS` time-out in seconds to wait for `stopstone`
+- `GS64_SYSTEM_USER_PASSWORD` Password of the `SystemUser` user, used for configuring
+  the Unicode comparison mode in the repository. Defaults to `swordfish`.
+- `GS64_STOPSTONE_TIMEOUT_SECONDS` time-out in seconds to wait for `stopstone`
   command to finish. Defaults to 8
 
 ## Important directories and files
