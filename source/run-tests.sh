@@ -32,7 +32,6 @@ expectvalue true
 doit
 StdOutTestReporter new runTestsForProjectNamed: '${PROJECT_NAME}'
 %
-commit
 logout
 exit 0
 EOF
