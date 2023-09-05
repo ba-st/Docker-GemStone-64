@@ -143,6 +143,7 @@ RUN install -d --owner=${GS_USER} --group=users ${ROWAN_PROJECTS_HOME}
 COPY --chown=${GS_USER}:users configure.sh ${GEMSTONE_GLOBAL_DIR}/configure.sh
 COPY --chown=${GS_USER}:users load-rowan-project.sh ${GEMSTONE_GLOBAL_DIR}/load-rowan-project.sh
 COPY --chown=${GS_USER}:users run-tests.sh ${GEMSTONE_GLOBAL_DIR}/run-tests.sh
+COPY --chown=${GS_USER}:users Rowan.gs ${GEMSTONE_GLOBAL_DIR}/Rowan.gs
 COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
 COPY --chown=${GS_USER}:users StdOutTestReporter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutTestReporter.gs
 

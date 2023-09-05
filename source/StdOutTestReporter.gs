@@ -1,3 +1,4 @@
+fileformat utf8
 set compile_env: 0
 ! ------------------- Class definition for StdOutTestReporter
 expectvalue /Class
