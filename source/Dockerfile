@@ -59,6 +59,7 @@ RUN rm -rf \
   ${GEMSTONE}/include/ \
   ${GEMSTONE}/install/ \
   ${GEMSTONE}/lib32/ \
+  ${GEMSTONE}/projects/ \
   ${GEMSTONE}/rowan/ \
   ${GEMSTONE}/seaside/ \
   ${GEMSTONE}/upgrade/ \
