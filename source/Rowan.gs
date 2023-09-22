@@ -6,3 +6,18 @@ addDefinition: aDefinition
 
 	definitions at: aDefinition key put: aDefinition
 %
+category: 'initialize-release'
+method: STONWriter
+jsonMode: boolean
+
+	jsonMode := boolean.
+	jsonMode
+		ifTrue: [
+			STONCharacters
+				at: $' codePoint + 1 put: #pass;
+				at: $" codePoint + 1 put: '\"' ]
+		ifFalse: [
+			STONCharacters
+				at: $" codePoint + 1 put: #pass;
+				at: $' codePoint + 1 put: '\''' ]
+%
