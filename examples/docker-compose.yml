@@ -13,3 +13,16 @@ services:
       - ./logs/:/opt/gemstone/logs/
       - ./projects/:/opt/gemstone/projects/
       - ~/.ssh/:/home/gemstone/.ssh/:ro
+  gem:
+    init: true
+    network_mode: host
+    depends_on:
+      stone:
+        condition: service_started
+    image: ghcr.io/ba-st/gs64-gem:v3.7.0
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+    volumes:
+      - ./gem-conf/:/opt/gemstone/conf/
+      - ./gem-locks/:/opt/gemstone/locks/
+      - ./gem-logs/:/opt/gemstone/logs/

@@ -150,3 +150,86 @@ COPY --chown=${GS_USER}:users StdOutTestReporter.gs ${GEMSTONE_GLOBAL_DIR}/StdOu
 
 COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./entrypoint.sh"]
+
+FROM download as minimal-download
+
+# Remove non-essential files to keep the final image size small
+RUN rm -rf \
+  ${GEMSTONE}/bin/copydbf \
+  ${GEMSTONE}/bin/gemsetup.csh \
+  ${GEMSTONE}/bin/gemstone_data.conf \
+  ${GEMSTONE}/bin/pageaudit \
+  ${GEMSTONE}/bin/printlogs \
+  ${GEMSTONE}/bin/removedbf \
+  ${GEMSTONE}/bin/searchlogs \
+  ${GEMSTONE}/bin/secure_backup_extract \
+  ${GEMSTONE}/bin/slow \
+  ${GEMSTONE}/bin/starthostagent \
+  ${GEMSTONE}/bin/startlogreceiver \
+  ${GEMSTONE}/bin/startlogsender \
+  ${GEMSTONE}/bin/startstone \
+  ${GEMSTONE}/bin/stophostagent \
+  ${GEMSTONE}/bin/stoplogreceiver \
+  ${GEMSTONE}/bin/stoplogsender \
+  ${GEMSTONE}/bin/stopstone \
+  ${GEMSTONE}/bin/superdoit_baseimage_solo \
+  ${GEMSTONE}/bin/superdoit_solo \
+  ${GEMSTONE}/bin/superdoit_stone \
+  ${GEMSTONE}/bin/updatesecuredbf \
+  ${GEMSTONE}/bin/upgradeimage \
+  ${GEMSTONE}/bin/verify_backup_with_openssl \
+  ${GEMSTONE}/bin/waitstone \
+  ${GEMSTONE}/bin/x509 \
+  ${GEMSTONE}/data \
+  ${GEMSTONE}/doc/man1/copydbf* \
+  ${GEMSTONE}/doc/man1/pageaudit* \
+  ${GEMSTONE}/doc/man1/printlogs* \
+  ${GEMSTONE}/doc/man1/removedbf* \
+  ${GEMSTONE}/doc/man1/searchlogs* \
+  ${GEMSTONE}/doc/man1/secure_backup_extract* \
+  ${GEMSTONE}/doc/man1/starthostagent* \
+  ${GEMSTONE}/doc/man1/startlogreceiver* \
+  ${GEMSTONE}/doc/man1/startlogsender* \
+  ${GEMSTONE}/doc/man1/startstone* \
+  ${GEMSTONE}/doc/man1/stophostagent* \
+  ${GEMSTONE}/doc/man1/stoplogreceiver* \
+  ${GEMSTONE}/doc/man1/stoplogsender* \
+  ${GEMSTONE}/doc/man1/stopstone* \
+  ${GEMSTONE}/doc/man1/updatesecuredbf* \
+  ${GEMSTONE}/doc/man1/waitstone* \
+  ${GEMSTONE}/doc/man8/stoned* \
+  ${GEMSTONE}/sys/hostagenttopaz.ini \
+  ${GEMSTONE}/sys/midhostagenttopaz.ini \
+  ${GEMSTONE}/sys/runpageauditgem \
+  ${GEMSTONE}/sys/stoned \
+  ${GEMSTONE}/sys/topazSolo.ini \
+  ${GEMSTONE_GLOBAL_DIR}/start-gemstone.sh \
+  ${GEMSTONE_GLOBAL_DIR}/entrypoint.sh \
+  ;
+
+## Prepare gem image
+FROM base as docker-gs64-gem
+LABEL maintainer="Buenos Aires Smalltalk <github@fast.org.ar>"
+
+ENV GEMSTONE_GLOBAL_DIR=/opt/gemstone
+ENV GEMSTONE=${GEMSTONE_GLOBAL_DIR}/product
+ENV GEMSTONE_EXE_CONF=${GEMSTONE_GLOBAL_DIR}/conf
+ENV GEMSTONE_LOG_DIR=${GEMSTONE_GLOBAL_DIR}/logs
+
+ENV PATH=$GEMSTONE/bin:$PATH
+# Used to determine what shell to use for an exec, such as by System class>>performOnServer:.
+ENV SHELL=/usr/bin/bash
+
+ENV NETLDI_SERVICE_NAME=gs64ldi
+ENV NETLDI_PORT=50386
+
+# Copy startup scripts
+COPY start-gem.sh ${GEMSTONE_GLOBAL_DIR}/start-gem.sh
+COPY gem.sh ${GEMSTONE_GLOBAL_DIR}/gem.sh
+
+COPY --from=minimal-download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
+RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
+
+
+WORKDIR ${GEMSTONE_GLOBAL_DIR}
+CMD ["./gem.sh"]
