@@ -5,7 +5,7 @@ services:
     init: true
     image: ghcr.io/ba-st/gs64-rowan:v3.7.0
     cap_add:
-      - CAP_SYS_RESOURCE        
+      - CAP_SYS_RESOURCE
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:
@@ -22,7 +22,7 @@ services:
         condition: service_started
     image: ghcr.io/ba-st/gs64-gem:v3.7.0
     cap_add:
-      - CAP_SYS_RESOURCE        
+      - CAP_SYS_RESOURCE
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:

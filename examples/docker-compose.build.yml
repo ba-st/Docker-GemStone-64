@@ -10,7 +10,7 @@ services:
       args:
         GS_VERSION: 3.7.0
     cap_add:
-      - CAP_SYS_RESOURCE        
+      - CAP_SYS_RESOURCE
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:
