@@ -9,6 +9,8 @@ services:
       target: docker-gs64-rowan
       args:
         GS_VERSION: 3.7.0
+    cap_add:
+      - CAP_SYS_RESOURCE        
     environment:
       TZ: America/Argentina/Buenos_Aires
     volumes:
