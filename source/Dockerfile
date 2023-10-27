@@ -19,6 +19,7 @@ RUN  apt-get update \
      ca-certificates \
      gosu \
      locales \
+     libcap2-bin \
   && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
   && echo "en_US.ISO-8859-15 ISO-8859-15" >> /etc/locale.gen \
   && locale-gen \
@@ -114,7 +115,8 @@ ENV GEMSTONE_NRS_ALL=#netldi:$NETLDI_SERVICE_NAME#dir:$GEMSTONE_LOG_DIR/#log:$GE
 
 COPY --from=download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
 RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
-
+RUN setcap cap_sys_resource=pe $GEMSTONE/sys/stoned
+RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
 VOLUME ${GEMSTONE_GLOBAL_DIR}/data/
@@ -229,7 +231,7 @@ COPY gem.sh ${GEMSTONE_GLOBAL_DIR}/gem.sh
 
 COPY --from=minimal-download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
 RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
-
+RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
 CMD ["./gem.sh"]
