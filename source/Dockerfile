@@ -221,7 +221,7 @@ ENV PATH=$GEMSTONE/bin:$PATH
 ENV SHELL=/usr/bin/bash
 
 ENV NETLDI_SERVICE_NAME=gs64ldi
-ENV NETLDI_PORT=50386
+ENV NETLDI_PORT=50384
 
 # Copy startup scripts
 COPY start-gem.sh ${GEMSTONE_GLOBAL_DIR}/start-gem.sh

@@ -23,6 +23,7 @@ startnetldi \
   -n \
   -P "${NETLDI_PORT}" \
   -l "${GEMSTONE_LOG_DIR}/${NETLDI_SERVICE_NAME}.log" \
+  -D "${GEMSTONE_LOG_DIR}" \
   ${NETLDI_ARGS:-} \
   "${NETLDI_SERVICE_NAME}"
 
