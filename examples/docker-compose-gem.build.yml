@@ -3,7 +3,6 @@ version: "3"
 services:
   stone:
     init: true
-    network_mode: host
     build:
       context: ../source
       target: docker-gs64-rowan
@@ -17,3 +16,19 @@ services:
       - ./logs/:/opt/gemstone/logs/
       - ./projects/:/opt/gemstone/projects/
       - ~/.ssh/:/home/gemstone/.ssh/:ro
+#     - ./your-keyfile.key:/opt/gemstone/product/sys/gemstone.key:ro
+  gem:
+    init: true
+    depends_on:
+      stone:
+        condition: service_started
+    build:
+      context: ../source
+      target: docker-gs64-gem
+      args:
+        GS_VERSION: 3.7.0
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+    volumes:
+      - ./gem-conf/:/opt/gemstone/conf/
+      - ./gem-logs/:/opt/gemstone/logs/
