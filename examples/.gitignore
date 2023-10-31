@@ -1,5 +1,7 @@
+*.key
 conf/*
 data/*
+gem-*/*
 logs/*
 locks/*
 projects/*
