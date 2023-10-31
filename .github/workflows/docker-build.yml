@@ -97,7 +97,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository_owner }}/gs64-gem
 
-      - name: Docker build and push base image
+      - name: Docker build and push gem image
         uses: docker/build-push-action@v5
         with:
           context: ./source
