@@ -3,14 +3,17 @@
 **Unofficial** docker images for GemStone/S 64 bits server and gem sessions.
 This is a community project not endorsed by [GemTalk](https://gemtalksystems.com).
 
+## Build Arguments
+
+- `GS_NETLDI_SERVICE_NAME` Netldi service name. Defaults to `gs64ldi`
+- `GS_NETLDI_PORT` NetLDI service port. Defaults to `50384`
+- `GS_STONE_SERVICE_NAME` Stone service name. Defaults to `gs64stone`
+- `GS_STONE_PORT` Stone service port. Defaults to `50385`
+
 ## Configuration
 
 You can configure some things with environment variables:
 
-- `NETLDI_SERVICE_NAME` Netldi service name. Defaults to `gs64ldi`
-- `NETLDI_PORT` NetLDI service port. Defaults to `50384`
-- `STONE_SERVICE_NAME` Stone service name. Defaults to `gs64stone`
-- `STONE_PORT` Stone service port. Defaults to `50385`
 - `GEMSTONE_NRS_ALL` Defaults to `#netldi:gs64ldi#dir:/opt/gemstone/logs/#log:/opt/gemstone/logs/%N_%P.log`
 - `GS_FORCE_CLEAN_LOG_FILE_DELETE` Defaults to `true`
 - `GS64_DATA_CURATOR_PASSWORD` Password of the `DataCurator` user, used for stopping

@@ -1,6 +1,6 @@
 # Docker images reference
 
-## `gs64` server docker image
+## `gs64-server` server docker image
 
 This container image contains the GemStone/S 64 bits runtime support but doesn't
 provide an `extent0.dbf`. Users will need to map a volume against `/opt/gemstone/data/`
@@ -17,3 +17,8 @@ relevant keys.
 ## `gs64-base` docker image
 
 This container image builds on top of the server image providing the `extent0.dbf`
+
+## `gs64-gem` docker image
+
+This container image contains the GemStone/S 64 bits runtime support needed to run
+a remote Gem.

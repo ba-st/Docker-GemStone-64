@@ -3,6 +3,16 @@
 # see also https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
 set -eu
 
+# Copy default system config if missing
+if [ ! -f "${GEMSTONE_SYS_CONF}/system.conf" ]; then
+  cp -p "${GEMSTONE}/data/system.conf" "${GEMSTONE_SYS_CONF}/system.conf"
+fi
+
+# Create (empty) stone config if missing
+if [ ! -f "${GEMSTONE_EXE_CONF}/${STONE_SERVICE_NAME}.conf" ]; then
+  touch "${GEMSTONE_EXE_CONF}/${STONE_SERVICE_NAME}.conf"
+fi
+
 # SIGTERM-handler
 sigterm_handler() {
   echo 'Got SIGTERM, stopping GemStone/S 64 server'
