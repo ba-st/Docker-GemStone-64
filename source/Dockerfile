@@ -45,14 +45,6 @@ RUN mkdir - ${GEMSTONE_GLOBAL_DIR} \
   && unzip -qq ${DOWNLOAD_LOCATION}/GemStone.zip -d ${DOWNLOAD_LOCATION} \
   && mv ${DOWNLOAD_LOCATION}/GemStone64Bit${GS_VERSION}-x86_64.Linux ${GEMSTONE}
 
-# Create required directories
-RUN mkdir -p \
-  ${GEMSTONE_GLOBAL_DIR}/conf/ \
-  ${GEMSTONE_GLOBAL_DIR}/data/ \
-  ${GEMSTONE_GLOBAL_DIR}/locks/ \
-  ${GEMSTONE_GLOBAL_DIR}/logs/ \
-  ;
-
 # Remove non-essential files to keep the final image size small
 RUN rm -rf \
   ${GEMSTONE}/bin32/ \
@@ -125,6 +117,13 @@ RUN setcap cap_sys_resource=pe $GEMSTONE/sys/stoned
 RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
 USER ${GS_USER}
+
+RUN mkdir -p \
+  ${GEMSTONE_GLOBAL_DIR}/conf/ \
+  ${GEMSTONE_GLOBAL_DIR}/data/ \
+  ${GEMSTONE_GLOBAL_DIR}/locks/ \
+  ${GEMSTONE_GLOBAL_DIR}/logs/ \
+  ;
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
 VOLUME ${GEMSTONE_GLOBAL_DIR}/data/
 CMD ["./stone-init.sh"]
@@ -224,9 +223,7 @@ RUN rm -rf \
   ${GEMSTONE}/sys/midhostagenttopaz.ini \
   ${GEMSTONE}/sys/runpageauditgem \
   ${GEMSTONE}/sys/stoned \
-  ${GEMSTONE}/sys/topazSolo.ini \
-  ${GEMSTONE_GLOBAL_DIR}/start-gemstone.sh \
-  ${GEMSTONE_GLOBAL_DIR}/entrypoint.sh \
+  ${GEMSTONE}/sys/topazSolo.ini
   ;
 
 ######################
@@ -252,6 +249,11 @@ ENV NETLDI_PORT=${GS_NETLDI_PORT}
 
 COPY --from=minimal-download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
 COPY --chown=${GS_USER}:users gem-init.sh ${GEMSTONE_GLOBAL_DIR}/gem-init.sh
+RUN mkdir -p \
+  ${GEMSTONE_GLOBAL_DIR}/conf/ \
+  ${GEMSTONE_GLOBAL_DIR}/locks/ \
+  ${GEMSTONE_GLOBAL_DIR}/logs/ \
+  ;
 
 USER root
 RUN echo "${NETLDI_SERVICE_NAME} ${NETLDI_PORT}/tcp # GemStone - Netldi" >> /etc/services
