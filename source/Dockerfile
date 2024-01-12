@@ -134,7 +134,10 @@ CMD ["./stone-init.sh"]
 
 FROM docker-gs64-server as docker-gs64-base
 
-COPY --from=download --chown=${GS_USER}:users /tmp/extent0.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
+COPY --from=download \
+  --chown=${GS_USER}:users \
+  --chmod=ug+w \
+  /tmp/extent0.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 CMD ["./stone-init.sh"]
 
 #############################
@@ -163,7 +166,10 @@ COPY --chown=${GS_USER}:users Rowan.gs ${GEMSTONE_GLOBAL_DIR}/Rowan.gs
 COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
 COPY --chown=${GS_USER}:users StdOutTestReporter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutTestReporter.gs
 
-COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
+COPY --from=download \
+  --chown=${GS_USER}:users \
+  --chmod=ug+w  \
+  /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
 
 USER ${GS_USER}
 CMD ["./stone-init.sh"]
