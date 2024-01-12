@@ -256,11 +256,6 @@ ENV NETLDI_PORT=${GS_NETLDI_PORT}
 
 COPY --from=minimal-download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
 COPY --chown=${GS_USER}:users gem-init.sh ${GEMSTONE_GLOBAL_DIR}/gem-init.sh
-RUN mkdir -p \
-  ${GEMSTONE_GLOBAL_DIR}/conf/ \
-  ${GEMSTONE_GLOBAL_DIR}/locks/ \
-  ${GEMSTONE_GLOBAL_DIR}/logs/ \
-  ;
 
 USER root
 RUN echo "${NETLDI_SERVICE_NAME} ${NETLDI_PORT}/tcp # GemStone - Netldi" >> /etc/services
@@ -268,5 +263,12 @@ RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
 RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
 USER ${GS_USER}
+
+RUN mkdir -p \
+  ${GEMSTONE_GLOBAL_DIR}/conf/ \
+  ${GEMSTONE_GLOBAL_DIR}/locks/ \
+  ${GEMSTONE_GLOBAL_DIR}/logs/ \
+  ;
+
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
 CMD ["./gem-init.sh"]
