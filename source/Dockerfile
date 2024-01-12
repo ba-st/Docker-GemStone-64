@@ -223,7 +223,7 @@ RUN rm -rf \
   ${GEMSTONE}/sys/midhostagenttopaz.ini \
   ${GEMSTONE}/sys/runpageauditgem \
   ${GEMSTONE}/sys/stoned \
-  ${GEMSTONE}/sys/topazSolo.ini
+  ${GEMSTONE}/sys/topazSolo.ini \
   ;
 
 ######################
