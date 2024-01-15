@@ -45,14 +45,6 @@ RUN mkdir - ${GEMSTONE_GLOBAL_DIR} \
   && unzip -qq ${DOWNLOAD_LOCATION}/GemStone.zip -d ${DOWNLOAD_LOCATION} \
   && mv ${DOWNLOAD_LOCATION}/GemStone64Bit${GS_VERSION}-x86_64.Linux ${GEMSTONE}
 
-# Create required directories
-RUN mkdir -p \
-  ${GEMSTONE_GLOBAL_DIR}/conf/ \
-  ${GEMSTONE_GLOBAL_DIR}/data/ \
-  ${GEMSTONE_GLOBAL_DIR}/locks/ \
-  ${GEMSTONE_GLOBAL_DIR}/logs/ \
-  ;
-
 # Remove non-essential files to keep the final image size small
 RUN rm -rf \
   ${GEMSTONE}/bin32/ \
@@ -78,12 +70,15 @@ RUN rm -rf \
 # Replace `data` location in the default system.conf
 RUN sed -ri 's|\$GEMSTONE/data|\$GEMSTONE_GLOBAL_DIR/data|g' ${GEMSTONE}/data/system.conf
 
-# Copy startup scripts
-COPY start-gemstone.sh ${GEMSTONE_GLOBAL_DIR}/start-gemstone.sh
-COPY entrypoint.sh ${GEMSTONE_GLOBAL_DIR}/entrypoint.sh
+#########################
+### GS64 Server Image ###
+#########################
 
-## Prepare server image
 FROM base as docker-gs64-server
+ARG GS_NETLDI_SERVICE_NAME=gs64ldi
+ARG GS_NETLDI_PORT=50384
+ARG GS_STONE_SERVICE_NAME=gs64stone
+ARG GS_STONE_PORT=50385
 LABEL maintainer="Buenos Aires Smalltalk <github@fast.org.ar>"
 
 ENV GEMSTONE_GLOBAL_DIR=/opt/gemstone
@@ -96,10 +91,10 @@ ENV PATH=$GEMSTONE/bin:$PATH
 # Used to determine what shell to use for an exec, such as by System class>>performOnServer:.
 ENV SHELL=/usr/bin/bash
 
-ENV NETLDI_SERVICE_NAME=gs64ldi
-ENV NETLDI_PORT=50384
-ENV STONE_SERVICE_NAME=gs64stone
-ENV STONE_PORT=50385
+ENV NETLDI_SERVICE_NAME=${GS_NETLDI_SERVICE_NAME}
+ENV NETLDI_PORT=${GS_NETLDI_PORT}
+ENV STONE_SERVICE_NAME=${GS_STONE_SERVICE_NAME}
+ENV STONE_PORT=${GS_STONE_PORT}
 
 ENV GS64_DATA_CURATOR_PASSWORD=swordfish
 ENV GS64_SYSTEM_USER_PASSWORD=swordfish
@@ -114,23 +109,44 @@ ENV GS_FORCE_CLEAN_LOG_FILE_DELETE=true
 ENV GEMSTONE_NRS_ALL=#netldi:$NETLDI_SERVICE_NAME#dir:$GEMSTONE_LOG_DIR/#log:$GEMSTONE_LOG_DIR/%N_%P.log
 
 COPY --from=download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
+COPY --chown=${GS_USER}:users stone-init.sh ${GEMSTONE_GLOBAL_DIR}/stone-init.sh
+RUN echo "${NETLDI_SERVICE_NAME} ${NETLDI_PORT}/tcp # GemStone - Netldi" >> /etc/services
+RUN echo "${STONE_SERVICE_NAME} ${STONE_PORT}/tcp # GemStone - Stone" >> /etc/services
 RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
 RUN setcap cap_sys_resource=pe $GEMSTONE/sys/stoned
 RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
+USER ${GS_USER}
+
+RUN mkdir -p \
+  ${GEMSTONE_GLOBAL_DIR}/conf/ \
+  ${GEMSTONE_GLOBAL_DIR}/data/ \
+  ${GEMSTONE_GLOBAL_DIR}/locks/ \
+  ${GEMSTONE_GLOBAL_DIR}/logs/ \
+  ;
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
 VOLUME ${GEMSTONE_GLOBAL_DIR}/data/
-CMD ["./entrypoint.sh"]
+CMD ["./stone-init.sh"]
 
-## Prepare server base image
+############################
+### GS Server Base Image ###
+############################
+
 FROM docker-gs64-server as docker-gs64-base
 
-COPY --from=download --chown=${GS_USER}:users /tmp/extent0.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
-CMD ["./entrypoint.sh"]
+COPY --from=download \
+  --chown=${GS_USER}:users \
+  /tmp/extent0.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
+RUN chmod ug+w ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf  
+CMD ["./stone-init.sh"]
 
-## Prepare server rowan image
+#############################
+### GS Server Rowan Image ###
+#############################
+
 FROM docker-gs64-server as docker-gs64-rowan
 
+USER root
 # Install git
 RUN  apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
@@ -150,8 +166,18 @@ COPY --chown=${GS_USER}:users Rowan.gs ${GEMSTONE_GLOBAL_DIR}/Rowan.gs
 COPY --chown=${GS_USER}:users StdOutPrinter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutPrinter.gs
 COPY --chown=${GS_USER}:users StdOutTestReporter.gs ${GEMSTONE_GLOBAL_DIR}/StdOutTestReporter.gs
 
-COPY --from=download --chown=${GS_USER}:users /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
-CMD ["./entrypoint.sh"]
+COPY --from=download \
+  --chown=${GS_USER}:users \
+  /tmp/extent0.rowan.dbf ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
+
+RUN chmod ug+w ${GEMSTONE_GLOBAL_DIR}/data/extent0.dbf
+
+USER ${GS_USER}
+CMD ["./stone-init.sh"]
+
+##############################
+### Reduced download image ###
+##############################
 
 FROM download as minimal-download
 
@@ -205,12 +231,15 @@ RUN rm -rf \
   ${GEMSTONE}/sys/runpageauditgem \
   ${GEMSTONE}/sys/stoned \
   ${GEMSTONE}/sys/topazSolo.ini \
-  ${GEMSTONE_GLOBAL_DIR}/start-gemstone.sh \
-  ${GEMSTONE_GLOBAL_DIR}/entrypoint.sh \
   ;
 
-## Prepare gem image
+######################
+### GS64 gem image ###
+######################
+
 FROM base as docker-gs64-gem
+ARG GS_NETLDI_SERVICE_NAME=gs64ldi
+ARG GS_NETLDI_PORT=50384
 LABEL maintainer="Buenos Aires Smalltalk <github@fast.org.ar>"
 
 ENV GEMSTONE_GLOBAL_DIR=/opt/gemstone
@@ -222,16 +251,24 @@ ENV PATH=$GEMSTONE/bin:$PATH
 # Used to determine what shell to use for an exec, such as by System class>>performOnServer:.
 ENV SHELL=/usr/bin/bash
 
-ENV NETLDI_SERVICE_NAME=gs64ldi
-ENV NETLDI_PORT=50384
-
-# Copy startup scripts
-COPY start-gem.sh ${GEMSTONE_GLOBAL_DIR}/start-gem.sh
-COPY gem.sh ${GEMSTONE_GLOBAL_DIR}/gem.sh
+ENV NETLDI_SERVICE_NAME=${GS_NETLDI_SERVICE_NAME}
+ENV NETLDI_PORT=${GS_NETLDI_PORT}
 
 COPY --from=minimal-download --chown=${GS_USER}:users ${GEMSTONE_GLOBAL_DIR} ${GEMSTONE_GLOBAL_DIR}
+COPY --chown=${GS_USER}:users gem-init.sh ${GEMSTONE_GLOBAL_DIR}/gem-init.sh
+
+USER root
+RUN echo "${NETLDI_SERVICE_NAME} ${NETLDI_PORT}/tcp # GemStone - Netldi" >> /etc/services
 RUN ln -s ${GEMSTONE}/bin/gemsetup.sh /etc/profile.d/gemstone.sh
 RUN setcap cap_sys_resource=pe $GEMSTONE/sys/pgsvrmain
 
+USER ${GS_USER}
+
+RUN mkdir -p \
+  ${GEMSTONE_GLOBAL_DIR}/conf/ \
+  ${GEMSTONE_GLOBAL_DIR}/locks/ \
+  ${GEMSTONE_GLOBAL_DIR}/logs/ \
+  ;
+
 WORKDIR ${GEMSTONE_GLOBAL_DIR}
-CMD ["./gem.sh"]
+CMD ["./gem-init.sh"]
