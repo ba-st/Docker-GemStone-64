@@ -54,8 +54,9 @@ startstone \
 gslist -cvl
 
 # Configure GS repository
-
-"${GEMSTONE_GLOBAL_DIR}"/configure.sh
+if [ -f "${GEMSTONE_GLOBAL_DIR}"/configure.sh ]; then
+  "${GEMSTONE_GLOBAL_DIR}"/configure.sh
+fi
 
 # wait forever, (loop to handle multiple signals if needed)
 while true
