@@ -54,6 +54,7 @@ RUN rm -rf \
   ${GEMSTONE}/lib32/ \
   ${GEMSTONE}/projects/ \
   ${GEMSTONE}/rowan/ \
+  ${GEMSTONE}/rowan3/ \
   ${GEMSTONE}/seaside/ \
   ${GEMSTONE}/upgrade/ \
   ${GEMSTONE}/bin/vsd* \

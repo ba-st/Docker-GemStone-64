@@ -4,7 +4,7 @@ services:
   stone:
     init: true
     network_mode: host
-    image: ghcr.io/ba-st/gs64-rowan:v3.7.0
+    image: ghcr.io/ba-st/gs64-rowan:v3.7.1
     cap_add:
       - CAP_SYS_RESOURCE
     environment:
