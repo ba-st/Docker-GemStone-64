@@ -202,6 +202,7 @@ RUN rm -rf \
   ${GEMSTONE}/bin/stoplogsender \
   ${GEMSTONE}/bin/stopstone \
   ${GEMSTONE}/bin/superdoit_baseimage_solo \
+  ${GEMSTONE}/bin/superdoit_rowan3_solo \
   ${GEMSTONE}/bin/superdoit_solo \
   ${GEMSTONE}/bin/superdoit_stone \
   ${GEMSTONE}/bin/updatesecuredbf \
