@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   stone:
@@ -7,7 +7,7 @@ services:
       context: ../source
       target: docker-gs64-rowan
       args:
-        GS_VERSION: 3.7.0
+        GS_VERSION: 3.7.1
     cap_add:
       - CAP_SYS_RESOURCE
     environment:
@@ -28,7 +28,7 @@ services:
       context: ../source
       target: docker-gs64-gem
       args:
-        GS_VERSION: 3.7.0
+        GS_VERSION: 3.7.1
     cap_add:
       - CAP_SYS_RESOURCE
     environment:

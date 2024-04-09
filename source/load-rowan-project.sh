@@ -24,7 +24,7 @@ touch "${GEMSTONE_LOG_DIR}/loading-rowan-projects.log"
 echo "Installing Rowan fixes"
 
 topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/installing-rowan-fixes.log"
-set gemstone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
+set stone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
 iferror exit 1
 login
 input Rowan.gs
@@ -38,7 +38,7 @@ echo "  Project Name: ${LRP_PROJECT_NAME}"
 echo "  Load Spec: ${LRP_LOAD_SPEC}"
 
 topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/loading-rowan-projects.log"
-set gemstone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
+set stone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
 iferror exit 1
 login
 doit
