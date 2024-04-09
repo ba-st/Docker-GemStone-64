@@ -14,6 +14,7 @@ echo "Installing stdout printer & test reporter"
 topaz -i -q <<EOF > "${GEMSTONE_LOG_DIR}/installing-stdout-support.log"
 set stone gs64stone user SystemUser pass ${SYSTEM_USER_PASSWORD}
 iferror exit 1
+fileformat utf8
 login
 input StdOutPrinter.gs
 input StdOutTestReporter.gs

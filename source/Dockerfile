@@ -47,6 +47,12 @@ RUN mkdir - ${GEMSTONE_GLOBAL_DIR} \
 
 # Remove non-essential files to keep the final image size small
 RUN rm -rf \
+  ${GEMSTONE}/bin/gemsetup.csh \
+  ${GEMSTONE}/bin/slow \
+  ${GEMSTONE}/bin/superdoit_baseimage_solo \
+  ${GEMSTONE}/bin/superdoit_rowan3_solo \
+  ${GEMSTONE}/bin/superdoit_solo \
+  ${GEMSTONE}/bin/superdoit_stone \  
   ${GEMSTONE}/bin32/ \
   ${GEMSTONE}/examples/ \
   ${GEMSTONE}/include/ \
@@ -65,6 +71,7 @@ RUN rm -rf \
   ${GEMSTONE}/lib/pkgconfig/tk* \
   ${GEMSTONE}/lib/rbc* \
   ${GEMSTONE}/doc/man1/vsd.1 \
+  ${GEMSTONE}/sys/topazSolo.ini \  
 && mv ${GEMSTONE}/bin/extent0*.dbf ${DOWNLOAD_LOCATION} \
 ;
 
@@ -185,14 +192,12 @@ FROM download as minimal-download
 # Remove non-essential files to keep the final image size small
 RUN rm -rf \
   ${GEMSTONE}/bin/copydbf \
-  ${GEMSTONE}/bin/gemsetup.csh \
   ${GEMSTONE}/bin/gemstone_data.conf \
   ${GEMSTONE}/bin/pageaudit \
   ${GEMSTONE}/bin/printlogs \
   ${GEMSTONE}/bin/removedbf \
   ${GEMSTONE}/bin/searchlogs \
   ${GEMSTONE}/bin/secure_backup_extract \
-  ${GEMSTONE}/bin/slow \
   ${GEMSTONE}/bin/starthostagent \
   ${GEMSTONE}/bin/startlogreceiver \
   ${GEMSTONE}/bin/startlogsender \
@@ -201,10 +206,6 @@ RUN rm -rf \
   ${GEMSTONE}/bin/stoplogreceiver \
   ${GEMSTONE}/bin/stoplogsender \
   ${GEMSTONE}/bin/stopstone \
-  ${GEMSTONE}/bin/superdoit_baseimage_solo \
-  ${GEMSTONE}/bin/superdoit_rowan3_solo \
-  ${GEMSTONE}/bin/superdoit_solo \
-  ${GEMSTONE}/bin/superdoit_stone \
   ${GEMSTONE}/bin/updatesecuredbf \
   ${GEMSTONE}/bin/upgradeimage \
   ${GEMSTONE}/bin/verify_backup_with_openssl \
@@ -232,7 +233,6 @@ RUN rm -rf \
   ${GEMSTONE}/sys/midhostagenttopaz.ini \
   ${GEMSTONE}/sys/runpageauditgem \
   ${GEMSTONE}/sys/stoned \
-  ${GEMSTONE}/sys/topazSolo.ini \
   ;
 
 ######################
