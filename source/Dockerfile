@@ -15,7 +15,7 @@ ENV GS_UID=1001
 ENV GS_GID=100
 
 RUN  apt-get update \
-  && apt-get upgrade -y; \
+  && apt-get upgrade -y \
   && apt-get install --assume-yes --no-install-recommends \
      ca-certificates \
      gosu \
