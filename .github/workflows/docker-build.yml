@@ -115,8 +115,9 @@ jobs:
       # Scan for vulnerabilities
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
+        if: ${{ github.event_name != 'pull_request' }}
         with:
-          image-ref: ghcr.io/${{ github.repository_owner }}/gs64:${{ github.sha }}
+          image-ref: ghcr.io/${{ github.repository_owner }}/gs64:${{ github.ref_name }}
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
@@ -125,5 +126,6 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           sarif_file: 'trivy-results.sarif'
