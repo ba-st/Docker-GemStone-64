@@ -14,9 +14,9 @@ ENV GS_USER=gemstone
 ENV GS_UID=1001
 ENV GS_GID=100
 
-RUN  apt-get update \
-  && apt-get upgrade -y \
-  && apt-get install --assume-yes --no-install-recommends \
+RUN  apt update \
+  && apt upgrade --assume-yes \
+  && apt install --assume-yes --no-install-recommends \
      ca-certificates \
      gosu \
      locales \
@@ -24,7 +24,7 @@ RUN  apt-get update \
   && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
   && echo "en_US.ISO-8859-15 ISO-8859-15" >> /etc/locale.gen \
   && locale-gen \
-  && apt-get clean \
+  && apt clean \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && useradd --uid ${GS_UID} --gid ${GS_GID} --no-create-home --no-user-group ${GS_USER} \
   ;
@@ -157,11 +157,11 @@ FROM docker-gs64-server as docker-gs64-rowan
 
 USER root
 # Install git
-RUN  apt-get update \
-  && apt-get install --assume-yes --no-install-recommends \
+RUN  apt update \
+  && apt install --assume-yes --no-install-recommends \
     git \
     ssh-client \
-  && apt-get clean \
+  && apt clean \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   ;
 
