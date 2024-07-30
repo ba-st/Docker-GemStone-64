@@ -30,7 +30,7 @@ RUN  apt update \
   ;
 
 ## Donwload GemStone 64 bits release
-FROM alpine:3.18 as download
+FROM alpine:3.18 AS download
 
 ARG GS_VERSION
 ENV GEMSTONE_GLOBAL_DIR=/opt/gemstone
@@ -83,7 +83,7 @@ RUN sed -ri 's|\$GEMSTONE/data|\$GEMSTONE_GLOBAL_DIR/data|g' ${GEMSTONE}/data/sy
 ### GS64 Server Image ###
 #########################
 
-FROM base as docker-gs64-server
+FROM base AS docker-gs64-server
 ARG GS_NETLDI_SERVICE_NAME=gs64ldi
 ARG GS_NETLDI_PORT=50384
 ARG GS_STONE_SERVICE_NAME=gs64stone
@@ -141,7 +141,7 @@ CMD ["./stone-init.sh"]
 ### GS Server Base Image ###
 ############################
 
-FROM docker-gs64-server as docker-gs64-base
+FROM docker-gs64-server AS docker-gs64-base
 
 COPY --from=download \
   --chown=${GS_USER}:users \
@@ -153,7 +153,7 @@ CMD ["./stone-init.sh"]
 ### GS Server Rowan Image ###
 #############################
 
-FROM docker-gs64-server as docker-gs64-rowan
+FROM docker-gs64-server AS docker-gs64-rowan
 
 USER root
 # Install git
@@ -188,7 +188,7 @@ CMD ["./stone-init.sh"]
 ### Reduced download image ###
 ##############################
 
-FROM download as minimal-download
+FROM download AS minimal-download
 
 # Remove non-essential files to keep the final image size small
 RUN rm -rf \
@@ -240,7 +240,7 @@ RUN rm -rf \
 ### GS64 gem image ###
 ######################
 
-FROM base as docker-gs64-gem
+FROM base AS docker-gs64-gem
 ARG GS_NETLDI_SERVICE_NAME=gs64ldi
 ARG GS_NETLDI_PORT=50384
 LABEL maintainer="Buenos Aires Smalltalk <github@fast.org.ar>"
