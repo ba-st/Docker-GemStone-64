@@ -7,7 +7,7 @@ services:
       context: ../source
       target: docker-gs64-rowan
       args:
-        GS_VERSION: 3.7.1
+        GS_VERSION: 3.7.1.1
     cap_add:
       - CAP_SYS_RESOURCE
     environment:
@@ -28,7 +28,7 @@ services:
       context: ../source
       target: docker-gs64-gem
       args:
-        GS_VERSION: 3.7.1
+        GS_VERSION: 3.7.1.1
     cap_add:
       - CAP_SYS_RESOURCE
     environment:

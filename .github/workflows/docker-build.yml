@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         version:
-          - '3.7.1'
+          - '3.7.1.1'
 
     steps:
       - name: Checkout repository
@@ -44,7 +44,7 @@ jobs:
           images: ghcr.io/${{ github.repository_owner }}/gs64
 
       - name: Docker build and push server image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./source
           file: ./source/Dockerfile
@@ -63,7 +63,7 @@ jobs:
           images: ghcr.io/${{ github.repository_owner }}/gs64-rowan
 
       - name: Docker build and push rowan image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./source
           file: ./source/Dockerfile
@@ -82,7 +82,7 @@ jobs:
           images: ghcr.io/${{ github.repository_owner }}/gs64-base
 
       - name: Docker build and push base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./source
           file: ./source/Dockerfile
@@ -101,7 +101,7 @@ jobs:
           images: ghcr.io/${{ github.repository_owner }}/gs64-gem
 
       - name: Docker build and push gem image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./source
           file: ./source/Dockerfile
