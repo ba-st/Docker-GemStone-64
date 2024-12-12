@@ -1,4 +1,4 @@
-version: "3.8"
+
 
 services:
   stone:
@@ -14,4 +14,6 @@ services:
       - ./locks/:/opt/gemstone/locks/
       - ./logs/:/opt/gemstone/logs/
       - ./projects/:/opt/gemstone/projects/
+      - ./backups/:/opt/gemstone/backups/
+      - ./scripts/:/opt/gemstone/scripts/
       - ~/.ssh/:/home/gemstone/.ssh/:ro

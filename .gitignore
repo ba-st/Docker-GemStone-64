@@ -3,3 +3,5 @@ locks/*
 logs/*
 conf/*
 projects/*
+scripts/*
+backups/*
