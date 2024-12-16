@@ -5,3 +5,5 @@ gem-*/*
 logs/*
 locks/*
 projects/*
+scripts/*
+backups/*
